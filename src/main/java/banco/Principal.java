@@ -9,6 +9,7 @@ import implementaciones.ConexionBD;
 import interfaces.IClientesDAO;
 import interfaces.IConexionBD;
 import presentacion.IniciarSesion;
+import presentacion.Inicio;
 import presentacion.Registro;
 
 /**
@@ -28,8 +29,7 @@ public class Principal {
                 "root",
                 "cristian");
         IClientesDAO clientesDAO = new ClientesDAO(generadorConexiones);
-        new Registro(clientesDAO).setVisible(true);
-        new IniciarSesion(clientesDAO).setVisible(true);
+        new Inicio(clientesDAO).setVisible(true);
     }
     
 }

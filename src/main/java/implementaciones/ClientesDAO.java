@@ -88,24 +88,6 @@ public class ClientesDAO implements IClientesDAO{
     
     }
 
-    @Override
-    public boolean validarContrasena(String contrasena) {
-
-        CharSequence cadena = contrasena.trim();
-        String reCadena = "[A-Za-z0-9]{8}";
-        Pattern p = Pattern.compile(reCadena);
-        
-        Matcher matcher = p.matcher(cadena);
-        
-        if(matcher.matches()){
-            return true;
-        }
-        else {
-            return false;
-        }
-        
-    
-    }
 
     @Override
     public boolean iniciarSesion(Cliente cliente) {
@@ -133,21 +115,5 @@ return false;
     
     }
 
-    @Override
-    public boolean validarFecha(String fecha) {
-         
-        CharSequence cadena = fecha.trim();
-        String reCadena = "^\\d{4}[/-]\\d{2}[/-]\\d{2}$";
-        Pattern p = Pattern.compile(reCadena);
-        
-        Matcher matcher = p.matcher(cadena);
-        
-        if(matcher.matches()){
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
     
 }

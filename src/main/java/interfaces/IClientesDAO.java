@@ -15,7 +15,5 @@ public interface IClientesDAO {
     
     public Cliente registrar (Cliente cliente) throws PersistenciaException;
     public int verificarUsuario(String usuario);
-    public boolean validarContrasena(String contrasena);
-    public boolean validarFecha(String fecha);
     public boolean iniciarSesion(Cliente cliente);
 }
