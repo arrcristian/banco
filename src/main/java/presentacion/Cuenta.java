@@ -23,10 +23,12 @@ public class Cuenta extends javax.swing.JFrame {
         this.setTitle("Cuenta");
         this.clientesDAO = clientesDAO;
         initComponents();
+        //txtCliente.setText(clientesDAO.g);
         txtSaldo.setText("$2000");
         txtSaldo.setEditable(false);
         this.setLocationRelativeTo(null);
         setResizable(false);
+        
     }
 
 
@@ -42,12 +44,16 @@ public class Cuenta extends javax.swing.JFrame {
         lblSaldo = new javax.swing.JLabel();
         txtSaldo = new javax.swing.JTextField();
         lblCuenta = new javax.swing.JLabel();
-        txtCuenta = new javax.swing.JTextField();
         btnTransferir = new javax.swing.JButton();
         btnRetirar = new javax.swing.JButton();
+        btnTransacciones = new javax.swing.JButton();
+        cbCuenta = new javax.swing.JComboBox<>();
+        lblNombre = new javax.swing.JLabel();
+        txtCliente = new javax.swing.JTextField();
         menu = new javax.swing.JMenuBar();
         menuConfigurar = new javax.swing.JMenu();
         menuItemActualizar = new javax.swing.JMenuItem();
+        menuItemCancelarCuenta = new javax.swing.JMenuItem();
         menuItemSalir = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
@@ -71,6 +77,22 @@ public class Cuenta extends javax.swing.JFrame {
             }
         });
 
+        btnTransacciones.setText("Transacciones");
+        btnTransacciones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTransaccionesActionPerformed(evt);
+            }
+        });
+
+        cbCuenta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbCuenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbCuentaActionPerformed(evt);
+            }
+        });
+
+        lblNombre.setText("Cliente");
+
         menuConfigurar.setText("Cuenta");
 
         menuItemActualizar.setText("Datos Personales");
@@ -80,6 +102,14 @@ public class Cuenta extends javax.swing.JFrame {
             }
         });
         menuConfigurar.add(menuItemActualizar);
+
+        menuItemCancelarCuenta.setText("Cancelar Cuenta");
+        menuItemCancelarCuenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemCancelarCuentaActionPerformed(evt);
+            }
+        });
+        menuConfigurar.add(menuItemCancelarCuenta);
 
         menuItemSalir.setText("Salir");
         menuItemSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -104,26 +134,38 @@ public class Cuenta extends javax.swing.JFrame {
                 .addGap(114, 114, 114)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblCuenta)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(lblSaldo)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(btnRetirar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnTransferir, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                .addContainerGap(151, Short.MAX_VALUE))
+                            .addComponent(btnTransacciones)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblNombre)
+                            .addComponent(lblCuenta))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cbCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(132, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnTransferir)
+                    .addComponent(btnRetirar, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(149, 149, 149))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(35, 35, 35)
+                .addGap(3, 3, 3)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblNombre)
+                    .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblCuenta)
-                    .addComponent(txtCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblSaldo)
@@ -132,7 +174,9 @@ public class Cuenta extends javax.swing.JFrame {
                 .addComponent(btnTransferir)
                 .addGap(18, 18, 18)
                 .addComponent(btnRetirar)
-                .addContainerGap(71, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addComponent(btnTransacciones)
+                .addContainerGap())
         );
 
         pack();
@@ -156,19 +200,38 @@ public class Cuenta extends javax.swing.JFrame {
         new Inicio(clientesDAO).setVisible(true);
     }//GEN-LAST:event_menuItemSalirActionPerformed
 
+    private void cbCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbCuentaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbCuentaActionPerformed
+
+    private void menuItemCancelarCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemCancelarCuentaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menuItemCancelarCuentaActionPerformed
+
+    private void btnTransaccionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransaccionesActionPerformed
+        // TODO add your handling code here:
+        dispose();
+        new Historial(clientesDAO).setVisible(true);
+        
+    }//GEN-LAST:event_btnTransaccionesActionPerformed
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRetirar;
+    private javax.swing.JButton btnTransacciones;
     private javax.swing.JButton btnTransferir;
+    private javax.swing.JComboBox<String> cbCuenta;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JLabel lblCuenta;
+    private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblSaldo;
     private javax.swing.JMenuBar menu;
     private javax.swing.JMenu menuConfigurar;
     private javax.swing.JMenuItem menuItemActualizar;
+    private javax.swing.JMenuItem menuItemCancelarCuenta;
     private javax.swing.JMenuItem menuItemSalir;
-    private javax.swing.JTextField txtCuenta;
+    private javax.swing.JTextField txtCliente;
     private javax.swing.JTextField txtSaldo;
     // End of variables declaration//GEN-END:variables
 }

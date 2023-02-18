@@ -5,6 +5,8 @@
 package presentacion;
 
 import interfaces.IClientesDAO;
+import java.util.TimerTask;
+import javax.swing.Timer;
 
 /**
  *
@@ -21,8 +23,8 @@ public class Retiro extends javax.swing.JFrame {
         this.clientesDAO = clientesDAO;
         initComponents();
         //this.txtMonto.setText(this.clientesDAO.);
-        this.txtMonto.setText("$200");
-        txtMonto.setEditable(false);
+//        this.txtMonto.setText("$200");
+//        txtMonto.setEditable(false);
         this.setLocationRelativeTo(null);
         setResizable(false);
     }
@@ -59,7 +61,7 @@ public class Retiro extends javax.swing.JFrame {
         lblRetiro.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblRetiro.setText("Retiro");
 
-        btnRegresar.setText("<- Regresar");
+        btnRegresar.setText("⬅ Regresar");
         btnRegresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegresarActionPerformed(evt);

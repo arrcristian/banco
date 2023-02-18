@@ -83,7 +83,7 @@ public class Inicio extends javax.swing.JFrame {
         });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel1.setText("Seleccione una opción");
+        jLabel1.setText("Seleccione una Opción");
 
         btnSalir.setForeground(new java.awt.Color(255, 0, 0));
         btnSalir.setText("Salir del Sistema");
@@ -98,7 +98,7 @@ public class Inicio extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(82, Short.MAX_VALUE)
+                .addContainerGap(79, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(66, 66, 66))
             .addGroup(layout.createSequentialGroup()
