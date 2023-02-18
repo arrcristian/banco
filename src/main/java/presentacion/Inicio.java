@@ -4,10 +4,12 @@
  */
 package presentacion;
 
+import dominio.Cliente;
 import implementaciones.ClientesDAO;
 import implementaciones.ConexionBD;
 import interfaces.IClientesDAO;
 import interfaces.IConexionBD;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -20,12 +22,28 @@ public class Inicio extends javax.swing.JFrame {
      * Creates new form Inicio
      */
     public Inicio(IClientesDAO clientesDAO) {
+        this.setTitle("Inicio");
         this.clientesDAO = clientesDAO;
         initComponents();
         this.setLocationRelativeTo(null);
         setResizable(false);
     }
 
+    public boolean verificarInicio(){
+        Cliente cliente = new Cliente();
+       if(clientesDAO.iniciarSesion(cliente)){
+           return true;
+       }
+       return false;
+    }
+    
+    public void iniciarSesion(){
+        if(verificarInicio()){
+            new Cuenta(clientesDAO).setVisible(true);
+        } else {
+             JOptionPane.showMessageDialog(null, "Error");
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -116,17 +134,22 @@ public class Inicio extends javax.swing.JFrame {
 
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
         // TODO add your handling code here:
+        dispose();
         new IniciarSesion(clientesDAO).setVisible(true);
+        
+        
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
     private void btnRegistrarmeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarmeActionPerformed
         // TODO add your handling code here:
+        dispose();
         new Registro(clientesDAO).setVisible(true);
     }//GEN-LAST:event_btnRegistrarmeActionPerformed
 
     private void btnRetiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetiroActionPerformed
         // TODO add your handling code here:
-      
+        dispose();
+      new Retiro(clientesDAO).setVisible(true);
     }//GEN-LAST:event_btnRetiroActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed

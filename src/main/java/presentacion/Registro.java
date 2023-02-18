@@ -320,6 +320,7 @@ public class Registro extends javax.swing.JFrame {
              String contrasena = new String(txtContrasena.getPassword());
         if(validadores.validarContrasena(contrasena)){
             guardar();
+            dispose();
             reiniciarCampos();
         } else {
              JOptionPane.showMessageDialog(null, "La contraseña debe contener 8 caracteres");
@@ -331,6 +332,7 @@ public class Registro extends javax.swing.JFrame {
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
         dispose();
+        new Inicio(clientesDAO).setVisible(true);
     }//GEN-LAST:event_btnRegresarActionPerformed
 
    

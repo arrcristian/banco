@@ -82,6 +82,11 @@ public class IniciarSesion extends javax.swing.JFrame {
         } 
         return true;
     }
+    
+    public void reiniciarCampos(){
+        txtContrasena.setText("");
+        txtId.setText("");
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -181,7 +186,10 @@ public class IniciarSesion extends javax.swing.JFrame {
   
         if(verificarCamposVacios() == true && verificarContrasena() == true && verificarCamposVacios() == true && inicioSesion() == true){
            inicioSesion();
-           JOptionPane.showMessageDialog(null, "Has ingresado al sistema");
+           dispose();
+           reiniciarCampos();
+//           JOptionPane.showMessageDialog(null, "Has ingresado al sistema");
+           new Cuenta(clientesDAO).setVisible(true);
         } else {
                  JOptionPane.showMessageDialog(null, "Error al iniciar, datos incorrectos");
             }
@@ -192,6 +200,7 @@ public class IniciarSesion extends javax.swing.JFrame {
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
         dispose();
+        new Inicio(clientesDAO).setVisible(true);
     }//GEN-LAST:event_btnRegresarActionPerformed
 
 
