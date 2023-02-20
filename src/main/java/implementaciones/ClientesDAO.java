@@ -15,8 +15,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 /**
  *
@@ -115,5 +114,38 @@ return false;
     
     }
 
+    @Override
+  public Cliente actualizarDatos(Cliente cliente) {
+    // Se crea una conexión a la base de datos
+     String codigoSQL = "UPDATE clientes set id = ?,nombre = ?,apellido_paterno = ?,"
+             + "apellido_materno = ?,edad = ?, contraseña = ?,fecha_nacimiento "
+             + "= ?,calle = ?,numero_casa = ?,colonia = ? WHERE id = ?";
+        try (Connection conexion = MANEJADOR_CONEXIONES.crearConexion();
+                PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
+            
+            comando.setInt(1, cliente.getId());
+            comando.setString(2, cliente.getNombre());
+            comando.setString(3, cliente.getApellido_paterno());
+            comando.setString(4, cliente.getApellido_materno());
+            comando.setInt(5, cliente.getEdad());
+            comando.setString(6, cliente.getContraseña());
+            comando.setString(7, cliente.getFecha_nacimiento());
+            comando.setString(8, cliente.getCalle());
+            comando.setString(9, cliente.getNumero_casa());
+            comando.setString(10, cliente.getColonia());
+            comando.setInt(11, cliente.getId());
+
+            
+
+            comando.executeUpdate();;
+                return cliente;
     
+    } catch(Exception ex){
+        LOG.log(Level.SEVERE, "No se pudo actualizar la información: " + ex.getMessage());
+}
+return null;
+
+  }
+
+ 
 }

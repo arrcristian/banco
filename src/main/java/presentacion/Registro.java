@@ -5,6 +5,7 @@ import dominio.Cliente;
 import excepciones.PersistenciaException;
 import implementaciones.ClientesDAO;
 import interfaces.IClientesDAO;
+import interfaces.ICuentasDAO;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.logging.Logger;
@@ -20,13 +21,15 @@ public class Registro extends javax.swing.JFrame {
 
     private static final Logger LOG = Logger.getLogger(Registro.class.getName());
     private final IClientesDAO clientesDAO;
+    private final ICuentasDAO cuentasDAO;
     private final Validadores validadores = new Validadores();
     /**
      * Creates new form Registro
      */
-    public Registro(IClientesDAO clientesDAO) {
+    public Registro(IClientesDAO clientesDAO,ICuentasDAO cuentasDAO) {
         this.setTitle("Registro");
         this.clientesDAO = clientesDAO;
+        this.cuentasDAO = cuentasDAO;
         initComponents();
         txtFechaNacimiento.getDateEditor().setEnabled(false);
         this.setLocationRelativeTo(null);
@@ -34,7 +37,7 @@ public class Registro extends javax.swing.JFrame {
     }
     
  
-    private Cliente extraerDatosFormulario() {
+    public Cliente extraerDatosFormulario() {
         
         String contraseña = new String(txtContrasena.getPassword());
         String nuevaContraseña = CifrarContrasena.md5(contraseña);
@@ -356,7 +359,7 @@ public class Registro extends javax.swing.JFrame {
             guardar();
             dispose();
             reiniciarCampos();
-            new Inicio(clientesDAO).setVisible(true);
+            new Inicio(clientesDAO,cuentasDAO).setVisible(true);
         } else {
             JOptionPane.showMessageDialog(null, "Datos incorrectos");
         }
@@ -366,7 +369,7 @@ public class Registro extends javax.swing.JFrame {
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
         dispose();
-        new Inicio(clientesDAO).setVisible(true);
+        new Inicio(clientesDAO,cuentasDAO).setVisible(true);
     }//GEN-LAST:event_btnRegresarActionPerformed
 
    

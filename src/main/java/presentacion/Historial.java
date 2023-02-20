@@ -5,6 +5,7 @@
 package presentacion;
 
 import interfaces.IClientesDAO;
+import interfaces.ICuentasDAO;
 
 /**
  *
@@ -13,12 +14,14 @@ import interfaces.IClientesDAO;
 public class Historial extends javax.swing.JFrame {
 
     private final IClientesDAO clientesDAO;
+    private final ICuentasDAO cuentasDAO;
     /**
      * Creates new form Historial
      */
-    public Historial(IClientesDAO clientesDAO) {
+    public Historial(IClientesDAO clientesDAO,ICuentasDAO cuentasDAO) {
         this.setTitle("Transacciones");
         this.clientesDAO = clientesDAO;
+        this.cuentasDAO = cuentasDAO;
         initComponents();
         this.setLocationRelativeTo(null);
         setResizable(false);
@@ -35,6 +38,8 @@ public class Historial extends javax.swing.JFrame {
 
         lblTransacciones = new javax.swing.JLabel();
         btnRegresar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -48,6 +53,27 @@ public class Historial extends javax.swing.JFrame {
             }
         });
 
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -55,9 +81,13 @@ public class Historial extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnRegresar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblTransacciones)
                 .addGap(136, 136, 136))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(13, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -66,7 +96,9 @@ public class Historial extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTransacciones)
                     .addComponent(btnRegresar))
-                .addContainerGap(259, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -75,13 +107,15 @@ public class Historial extends javax.swing.JFrame {
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
         dispose();
-        new Cuenta(clientesDAO).setVisible(true);
+        new Sesión(clientesDAO,cuentasDAO).setVisible(true);
     }//GEN-LAST:event_btnRegresarActionPerformed
 
   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRegresar;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblTransacciones;
     // End of variables declaration//GEN-END:variables
 }

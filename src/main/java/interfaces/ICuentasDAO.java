@@ -4,17 +4,15 @@
  */
 package interfaces;
 
-import dominio.Cliente;
+import dominio.Cuenta;
 import excepciones.PersistenciaException;
 
 /**
  *
  * @author Cristian
  */
-public interface IClientesDAO {
+public interface ICuentasDAO {
     
-    public Cliente registrar (Cliente cliente) throws PersistenciaException;
-    public int verificarUsuario(String usuario);
-    public boolean iniciarSesion(Cliente cliente);
-    public Cliente actualizarDatos(Cliente cliente);
+    public Cuenta registrar (Cuenta cuenta) throws PersistenciaException;
+    public int verificarCliente(int cliente);
 }

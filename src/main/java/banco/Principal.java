@@ -6,8 +6,10 @@ package banco;
 
 import implementaciones.ClientesDAO;
 import implementaciones.ConexionBD;
+import implementaciones.CuentasDAO;
 import interfaces.IClientesDAO;
 import interfaces.IConexionBD;
+import interfaces.ICuentasDAO;
 import presentacion.IniciarSesion;
 import presentacion.Inicio;
 import presentacion.Registro;
@@ -29,7 +31,8 @@ public class Principal {
                 "root",
                 "cristian");
         IClientesDAO clientesDAO = new ClientesDAO(generadorConexiones);
-        new Inicio(clientesDAO).setVisible(true);
+        ICuentasDAO cuentasDAO = new CuentasDAO(generadorConexiones);
+        new Inicio(clientesDAO,cuentasDAO).setVisible(true);
     }
     
 }

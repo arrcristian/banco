@@ -5,23 +5,37 @@
 package presentacion;
 
 import cifrados.CifrarContrasena;
+import com.mysql.cj.protocol.a.LocalDateTimeValueEncoder;
 import dominio.Cliente;
+import dominio.Cuenta;
+import excepciones.PersistenciaException;
+import implementaciones.CuentasDAO;
 import interfaces.IClientesDAO;
+import interfaces.ICuentasDAO;
+import java.sql.Date;
+import java.time.LocalDateTime;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import static presentacion.IniciarSesion.txtId;
 
 /**
  *
  * @author Cristian
  */
-public class Cuenta extends javax.swing.JFrame {
+public class Sesión extends javax.swing.JFrame {
 
     private final IClientesDAO clientesDAO;
+    private final ICuentasDAO cuentasDAO;
     /**
      * Creates new form Cuenta
      */
-    public Cuenta(IClientesDAO clientesDAO) {
+    public Sesión(IClientesDAO clientesDAO, ICuentasDAO cuentasDAO) {
         this.setTitle("Cuenta");
         this.clientesDAO = clientesDAO;
+        this.cuentasDAO = cuentasDAO;
         initComponents();
         //txtCliente.setText(clientesDAO.g);
         txtSaldo.setText("$2000");
@@ -30,7 +44,35 @@ public class Cuenta extends javax.swing.JFrame {
         setResizable(false);
         
     }
+    
+    public Cuenta extraerDatosCuenta() {
+         Random random = new Random();
+        // Generar un número aleatorio de 16 dígitos en el rango de [10^15, 10^16)
+        long numero = (long) (random.nextDouble() * 9e15 + 1e15);
+        IniciarSesion iniciarSesion = new IniciarSesion(clientesDAO, cuentasDAO);
+        iniciarSesion.obtenerId();
+        // Convertir el número en una cadena de caracteres
+        String numeroString = Long.toString(numero);
+        String fechaActual = LocalDateTime.now().toString();
+        txtId.setText(txtId.getText());
+        int id = Integer.parseInt(txtId.getText());
+        Cuenta cuenta = new Cuenta(fechaActual, "activa", 0, numeroString, id);
+        return cuenta;
 
+    }
+
+    public void abrirCuenta() throws PersistenciaException{
+         
+        try {
+            Cuenta cuenta = this.extraerDatosCuenta();
+            Cuenta cuentaGuardada = this.cuentasDAO.registrar(cuenta);
+            JOptionPane.showMessageDialog(null, "Cuenta creada");
+        } catch (PersistenciaException ex) {
+            JOptionPane.showMessageDialog(null, "Error al crear la cuenta");
+        }
+    }
+       
+ 
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -53,6 +95,7 @@ public class Cuenta extends javax.swing.JFrame {
         menu = new javax.swing.JMenuBar();
         menuConfigurar = new javax.swing.JMenu();
         menuItemActualizar = new javax.swing.JMenuItem();
+        menuItemAbrirCuenta = new javax.swing.JMenuItem();
         menuItemCancelarCuenta = new javax.swing.JMenuItem();
         menuItemSalir = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
@@ -102,6 +145,14 @@ public class Cuenta extends javax.swing.JFrame {
             }
         });
         menuConfigurar.add(menuItemActualizar);
+
+        menuItemAbrirCuenta.setText("Abrir Cuenta");
+        menuItemAbrirCuenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemAbrirCuentaActionPerformed(evt);
+            }
+        });
+        menuConfigurar.add(menuItemAbrirCuenta);
 
         menuItemCancelarCuenta.setText("Cancelar Cuenta");
         menuItemCancelarCuenta.addActionListener(new java.awt.event.ActionListener() {
@@ -184,6 +235,12 @@ public class Cuenta extends javax.swing.JFrame {
 
     private void menuItemActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemActualizarActionPerformed
         // TODO add your handling code here:
+        dispose();
+        new ActualizarDatos(clientesDAO, cuentasDAO).setVisible(true);
+//        IniciarSesion iniciarSesion = new IniciarSesion(clientesDAO, cuentasDAO);
+//        int id = iniciarSesion.obtenerId();
+//        int id = iniciarSesion.obtenerId();
+//        System.out.println(id);
     }//GEN-LAST:event_menuItemActualizarActionPerformed
 
     private void btnTransferirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransferirActionPerformed
@@ -197,7 +254,7 @@ public class Cuenta extends javax.swing.JFrame {
     private void menuItemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemSalirActionPerformed
         // TODO add your handling code here:
         dispose();
-        new Inicio(clientesDAO).setVisible(true);
+        new Inicio(clientesDAO,cuentasDAO).setVisible(true);
     }//GEN-LAST:event_menuItemSalirActionPerformed
 
     private void cbCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbCuentaActionPerformed
@@ -211,9 +268,18 @@ public class Cuenta extends javax.swing.JFrame {
     private void btnTransaccionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransaccionesActionPerformed
         // TODO add your handling code here:
         dispose();
-        new Historial(clientesDAO).setVisible(true);
+        new Historial(clientesDAO,cuentasDAO).setVisible(true);
         
     }//GEN-LAST:event_btnTransaccionesActionPerformed
+
+    private void menuItemAbrirCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemAbrirCuentaActionPerformed
+        try {
+            // TODO add your handling code here:
+            abrirCuenta();
+        } catch (PersistenciaException ex) {
+           JOptionPane.showMessageDialog(null, "Error al crear la cuenta");
+        }
+    }//GEN-LAST:event_menuItemAbrirCuentaActionPerformed
 
 
 
@@ -228,6 +294,7 @@ public class Cuenta extends javax.swing.JFrame {
     private javax.swing.JLabel lblSaldo;
     private javax.swing.JMenuBar menu;
     private javax.swing.JMenu menuConfigurar;
+    private javax.swing.JMenuItem menuItemAbrirCuenta;
     private javax.swing.JMenuItem menuItemActualizar;
     private javax.swing.JMenuItem menuItemCancelarCuenta;
     private javax.swing.JMenuItem menuItemSalir;

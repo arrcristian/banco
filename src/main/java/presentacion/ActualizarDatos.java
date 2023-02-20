@@ -5,6 +5,7 @@ import dominio.Cliente;
 import excepciones.PersistenciaException;
 import implementaciones.ClientesDAO;
 import interfaces.IClientesDAO;
+import interfaces.ICuentasDAO;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.logging.Logger;
@@ -16,17 +17,19 @@ import validadores.Validadores;
  *
  * @author Cristian
  */
-public class Registro extends javax.swing.JFrame {
+public class ActualizarDatos extends javax.swing.JFrame {
 
-    private static final Logger LOG = Logger.getLogger(Registro.class.getName());
+    private static final Logger LOG = Logger.getLogger(ActualizarDatos.class.getName());
     private final IClientesDAO clientesDAO;
+    private final ICuentasDAO cuentasDAO;
     private final Validadores validadores = new Validadores();
     /**
      * Creates new form Registro
      */
-    public Registro(IClientesDAO clientesDAO) {
-        this.setTitle("Registro");
+    public ActualizarDatos(IClientesDAO clientesDAO,ICuentasDAO cuentasDAO) {
+        this.setTitle("Actualizar Datos");
         this.clientesDAO = clientesDAO;
+        this.cuentasDAO = cuentasDAO;
         initComponents();
         txtFechaNacimiento.getDateEditor().setEnabled(false);
         this.setLocationRelativeTo(null);
@@ -34,7 +37,7 @@ public class Registro extends javax.swing.JFrame {
     }
     
  
-    private Cliente extraerDatosFormulario() {
+    public Cliente extraerDatosFormulario() {
         
         String contraseña = new String(txtContrasena.getPassword());
         String nuevaContraseña = CifrarContrasena.md5(contraseña);
@@ -46,7 +49,13 @@ public class Registro extends javax.swing.JFrame {
         String numeroCasa = this.txtNumero.getText();
         String fecha_nacimiento = ((JTextField)this.txtFechaNacimiento.getDateEditor().getUiComponent()).getText();
         int edad = calcularEdad(fecha_nacimiento);
+                IniciarSesion iniciarSesion = new IniciarSesion(clientesDAO, cuentasDAO);
+        //String id = iniciarSesion.obtenerId();
+       // System.out.println(id);
+
         Cliente cliente = new Cliente(nombre, apellido_paterno, apellido_materno, fecha_nacimiento, colonia, calle, numeroCasa, nuevaContraseña, edad);
+                
+        
         return cliente;
         
     }
@@ -66,23 +75,24 @@ public class Registro extends javax.swing.JFrame {
         return periodo.getYears();
     }
     
-    private void mostrarMensajeClienteGuardado(Cliente cliente) {
-        JOptionPane.showMessageDialog(this, "Te has registrado, tu ID es: " + cliente.getId());
-    }
+
     
-    private void mostrarMensajeErrorAlGuardar() {
-        JOptionPane.showMessageDialog(this, "No fue posible registrarse", "Error", JOptionPane.ERROR_MESSAGE);
-    }
-    
-    private void guardar() {
+     private void actualizar() {
         
         try {
             Cliente cliente = this.extraerDatosFormulario();
-            Cliente clienteGuardado = this.clientesDAO.registrar(cliente);
-            this.mostrarMensajeClienteGuardado(clienteGuardado);
-        } catch (PersistenciaException ex) {
-            this.mostrarMensajeErrorAlGuardar();
+            Cliente datosActualizados = this.clientesDAO.actualizarDatos(cliente);
+            this.mostrarMensajeDatosActualizados();
+        } catch (Exception ex) {
+            this.mostrarMensajeErrorAlActualizar();
         }
+    }
+       private void mostrarMensajeDatosActualizados() {
+        JOptionPane.showMessageDialog(this, "Tus datos se han actualizado");
+    }
+    
+    private void mostrarMensajeErrorAlActualizar() {
+        JOptionPane.showMessageDialog(this, "No fue posible actualizar los datos", "Error", JOptionPane.ERROR_MESSAGE);
     }
     
     private boolean verificarContrasena(){
@@ -202,7 +212,7 @@ public class Registro extends javax.swing.JFrame {
         });
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel4.setText("Registro");
+        jLabel4.setText("Actualizar Datos");
 
         lblConfirmarContrasena.setText("Confirmar Contraseña");
 
@@ -240,67 +250,66 @@ public class Registro extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(btnRegresar)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(64, 64, 64)
-                                .addComponent(jLabel3))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(154, 154, 154)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(64, 64, 64)
+                        .addComponent(jLabel3))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(78, 78, 78)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(69, 69, 69)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(lblCalle)
-                                    .addComponent(lblNumero)
-                                    .addComponent(lblColonia))
-                                .addGap(50, 50, 50)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtNumero)
-                                    .addComponent(txtCalle)
-                                    .addComponent(txtColonia, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
-                                        .addComponent(btnConfirmar))))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(lblConfirmarContrasena)
-                                    .addComponent(lblContrasena))
-                                .addGap(46, 46, 46)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtConfirmarContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(4, 4, 4))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(lblFechaNacimiento)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(69, 69, 69)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(lblCalle)
+                                        .addComponent(lblNumero)
+                                        .addComponent(lblColonia))
+                                    .addGap(50, 50, 50)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(txtNumero)
+                                        .addComponent(txtCalle)
+                                        .addComponent(txtColonia, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGap(18, 18, 18)
+                                            .addComponent(btnConfirmar))))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(lblConfirmarContrasena)
+                                        .addComponent(lblContrasena))
+                                    .addGap(46, 46, 46)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(lblApellidoPaterno)
-                                            .addComponent(lblNombre))
-                                        .addComponent(lblApellidoMaterno)))
-                                .addGap(50, 50, 50)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
-                                    .addComponent(txtApellidoPaterno)
-                                    .addComponent(txtApellidoMaterno)
-                                    .addComponent(txtFechaNacimiento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
-                .addContainerGap(205, Short.MAX_VALUE))
+                                        .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtConfirmarContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(4, 4, 4))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(lblFechaNacimiento)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(lblApellidoPaterno)
+                                                .addComponent(lblNombre))
+                                            .addComponent(lblApellidoMaterno)))
+                                    .addGap(50, 50, 50)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(txtNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+                                        .addComponent(txtApellidoPaterno)
+                                        .addComponent(txtApellidoMaterno)
+                                        .addComponent(txtFechaNacimiento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(162, 162, 162)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(193, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(btnRegresar))
+                        .addGap(12, 12, 12)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnRegresar)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))))
+                        .addGap(43, 43, 43)
+                        .addComponent(jLabel3)))
                 .addGap(11, 11, 11)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNombre)
@@ -351,12 +360,12 @@ public class Registro extends javax.swing.JFrame {
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
         // TODO add your handling code here:
-        
+
         if(validarDatos()){
-            guardar();
+            actualizar();
             dispose();
             reiniciarCampos();
-            new Inicio(clientesDAO).setVisible(true);
+            new Sesión(clientesDAO,cuentasDAO).setVisible(true);
         } else {
             JOptionPane.showMessageDialog(null, "Datos incorrectos");
         }
@@ -366,7 +375,7 @@ public class Registro extends javax.swing.JFrame {
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
         dispose();
-        new Inicio(clientesDAO).setVisible(true);
+        new Sesión(clientesDAO,cuentasDAO).setVisible(true);
     }//GEN-LAST:event_btnRegresarActionPerformed
 
    

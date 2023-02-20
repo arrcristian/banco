@@ -9,7 +9,10 @@ import cifrados.CifrarContrasena;
 import dominio.Cliente;
 import excepciones.PersistenciaException;
 import interfaces.IClientesDAO;
+import interfaces.ICuentasDAO;
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 /**
  *
@@ -18,19 +21,23 @@ import javax.swing.JOptionPane;
 public class IniciarSesion extends javax.swing.JFrame {
 
     private final IClientesDAO clientesDAO;
+    private final ICuentasDAO cuentasDAO;
     /**
      * Creates new form IniciarSesion
      */
-    public IniciarSesion(IClientesDAO clientesDAO) {
+   
+
+    public IniciarSesion(IClientesDAO clientesDAO,ICuentasDAO cuentasDAO) {
         this.setTitle("Iniciar Sesión");
         this.clientesDAO = clientesDAO;
+        this.cuentasDAO = cuentasDAO;
         initComponents();
         this.setLocationRelativeTo(null);
         setResizable(false);
   
     }
     
-    private Cliente extraerDatosFormulario() {
+    public Cliente extraerDatosFormulario() {
         
         String contraseña = new String(txtContrasena.getPassword());
         int id = Integer.parseInt(txtId.getText());
@@ -41,6 +48,19 @@ public class IniciarSesion extends javax.swing.JFrame {
         return cliente;
 
     }
+    
+    public String obtenerId(){
+        String id = txtId.getText();
+        return id;
+    }
+
+    public static JTextField getTxtId() {
+        return txtId;
+    }
+    
+
+    
+  
     
     public boolean inicioSesion(){
         
@@ -192,7 +212,7 @@ public class IniciarSesion extends javax.swing.JFrame {
            dispose();
            reiniciarCampos();
 //           JOptionPane.showMessageDialog(null, "Has ingresado al sistema");
-           new Cuenta(clientesDAO).setVisible(true);
+           new Sesión(clientesDAO,cuentasDAO).setVisible(true);
         } else {
                  JOptionPane.showMessageDialog(null, "Error al iniciar, datos incorrectos");
             }
@@ -203,7 +223,7 @@ public class IniciarSesion extends javax.swing.JFrame {
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
         dispose();
-        new Inicio(clientesDAO).setVisible(true);
+        new Inicio(clientesDAO,cuentasDAO).setVisible(true);
     }//GEN-LAST:event_btnRegresarActionPerformed
 
 
@@ -214,6 +234,6 @@ public class IniciarSesion extends javax.swing.JFrame {
     private javax.swing.JLabel lblContrasena;
     private javax.swing.JLabel lblUsuario;
     private javax.swing.JPasswordField txtContrasena;
-    private javax.swing.JTextField txtId;
+    public static javax.swing.JTextField txtId;
     // End of variables declaration//GEN-END:variables
 }
