@@ -14,7 +14,8 @@ import excepciones.PersistenciaException;
  */
 public interface ICuentasDAO {
     
-    public Cuenta registrar (Cuenta cuenta) throws PersistenciaException;
+    public Cuenta registrar (Cuenta cuenta) ;
     public int verificarCliente(int cliente);
-    public Transferencia transferir();
+    public Transferencia transferir(Transferencia transferencia);
+
 }

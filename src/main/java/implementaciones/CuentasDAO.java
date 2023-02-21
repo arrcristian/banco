@@ -33,7 +33,7 @@ public class CuentasDAO implements ICuentasDAO {
         this.MANEJADOR_CONEXIONES = manejadorConexion;
     }
     @Override
-    public Cuenta registrar(Cuenta cuenta) throws PersistenciaException {
+    public Cuenta registrar(Cuenta cuenta)  {
          String codigoSQL = "INSERT INTO "
                 + "cuentas(fechaHoraApertura,estado,saldo, numero,IdCliente) VALUES (?,?,?,?,?)";
         try (Connection conexion = MANEJADOR_CONEXIONES.crearConexion();
@@ -49,14 +49,16 @@ public class CuentasDAO implements ICuentasDAO {
 
            int filasAfectadas = comando.executeUpdate();
             if (filasAfectadas == 1) {
-                System.out.println("Cuenta registrado exitosamente");
+                System.out.println("Cuenta registrada exitosamente");
+                return cuenta;
             } else {
                 System.out.println("Error al abrir cuenta");
+                return null;
             }
-            throw new PersistenciaException("Se insertó la cuenta pero no se generó el id");
+           
         } catch (SQLException ex) {
             LOG.log(Level.SEVERE, "No se pudo agregar la cuenta: " + ex.getMessage());
-            throw new PersistenciaException("No se pudo agregar la cuenta: " + ex.getMessage());
+                            return null;
 
         }
     }
@@ -86,22 +88,26 @@ public class CuentasDAO implements ICuentasDAO {
     }
 
     @Override
-    public Transferencia transferir() {
-        Transferencia transferencia = new Transferencia();
+    public Transferencia transferir(Transferencia transferencia) {
         Connection conexion;
         try {
             conexion = MANEJADOR_CONEXIONES.crearConexion();
-            CallableStatement cs = conexion.prepareCall("{call transferir(?,?,?)}");
-            cs.setFloat(1, transferencia.getMonto());
-            cs.setFloat(2, transferencia.getIdCuentaOrigen());
-            cs.setFloat(3, transferencia.getIdCuentaDestino());
-            cs.execute();
+            CallableStatement cs = conexion.prepareCall("{call transferir(?,?,?,?,?)}");
+            cs.setInt(1, transferencia.getId());
+            cs.setFloat(2, transferencia.getMonto());
+            cs.setFloat(3, transferencia.getIdCuentaOrigen());
+            cs.setFloat(4, transferencia.getIdCuentaDestino());
+            cs.setString(5, transferencia.getFecha());
+
+            cs.executeUpdate();
             return transferencia;
         } catch (SQLException ex) {
             Logger.getLogger(CuentasDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 return null;
     }
+
+
     
     
     

@@ -111,6 +111,7 @@ public class Historial extends javax.swing.JFrame {
         // TODO add your handling code here:
         dispose();
         new Sesión(clientesDAO,cuentasDAO,cliente).setVisible(true);
+        Sesión.txtCliente.setText(IniciarSesion.txtId.getText());
     }//GEN-LAST:event_btnRegresarActionPerformed
 
   

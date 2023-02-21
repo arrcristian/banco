@@ -193,6 +193,7 @@ public class IniciarSesion extends javax.swing.JFrame {
 
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
         // TODO add your handling code here:
+        Sesión sesion = new Sesión(clientesDAO, cuentasDAO, cliente);
         if(verificarCamposVacios() == false){
             JOptionPane.showMessageDialog(null, "Llene todos los campos");
         }
@@ -201,13 +202,13 @@ public class IniciarSesion extends javax.swing.JFrame {
         }
   
         if(verificarCamposVacios() == true && verificarContrasena() == true && verificarCamposVacios() == true && inicioSesion() != null){
-            int id = Integer.parseInt(getTxtId().getText());
-            System.out.println(id);
+        String info = txtId.getText();
+        Sesión.txtCliente.setText(info);
            inicioSesion();
            dispose();
 //           reiniciarCampos();
 //           JOptionPane.showMessageDialog(null, "Has ingresado al sistema");
-           new Sesión(clientesDAO,cuentasDAO,cliente).setVisible(true);
+            sesion.setVisible(true);
         } else {
                  JOptionPane.showMessageDialog(null, "Error al iniciar, datos incorrectos");
             }

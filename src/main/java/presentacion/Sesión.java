@@ -18,8 +18,7 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import dominio.Transferencia;
+import presentacion.TransferenciaForm;
 
 
 /**
@@ -45,53 +44,36 @@ public class Sesión extends javax.swing.JFrame {
         txtSaldo.setEditable(false);
         this.setLocationRelativeTo(null);
         setResizable(false);
+        txtCliente.setEditable(false);
+ 
         
+    }
+    public final int idDelCliente(){
+        int id = Integer.parseInt(IniciarSesion.txtId.getText());
+        txtCliente.setText(IniciarSesion.txtId.getText());
+        return id;
     }
     
     public Cuenta extraerDatosCuenta() {
          Random random = new Random();
         // Generar un número aleatorio de 16 dígitos en el rango de [10^15, 10^16)
         long numero = (long) (random.nextDouble() * 9e15 + 1e15);
-        clientesDAO.iniciarSesion(cliente).getId();
-
         String numeroString = Long.toString(numero);
         String fechaActual = LocalDateTime.now().toString();
-        int id = 9;
+        int id = Integer.parseInt(txtCliente.getText());
+        JOptionPane.showMessageDialog(null, "Tu nº Cuenta es: " + numeroString);
         Cuenta cuenta = new Cuenta(fechaActual, "activa", 2000, numeroString, id);
         return cuenta;
 
     }
 
-    public void abrirCuenta() throws PersistenciaException{
+    public void abrirCuenta() {
          
-        try {
             Cuenta cuenta = this.extraerDatosCuenta();
             Cuenta cuentaGuardada = this.cuentasDAO.registrar(cuenta);
             JOptionPane.showMessageDialog(null, "Cuenta creada");
-        } catch (PersistenciaException ex) {
-            JOptionPane.showMessageDialog(null, "Error al crear la cuenta");
-        }
+
     }
-    
-    public Transferencia extraerDatosTransferencia() throws PersistenciaException{
-        Cuenta cuenta1 = new Cuenta("2001-05-09", "activa", 8000,"134", 8);
-        Cuenta cuenta2 = new Cuenta("2000-09-07", "activa", 8000,"123", 9);
-        cuentasDAO.registrar(cuenta1);
-        cuentasDAO.registrar(cuenta2);
-        Transferencia transferencia = new Transferencia(5000, 8, 9);
-        return transferencia;
-       
-    }
-       public void transferir(){
-            try {
-            Transferencia transferencia = this.extraerDatosTransferencia();
-            Transferencia transferenciaGuardada = this.cuentasDAO.transferir();
-            JOptionPane.showMessageDialog(null, "Transferencia realizada");
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error no se realizó la transferencia");
-        }
-       }
- 
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -254,21 +236,23 @@ public class Sesión extends javax.swing.JFrame {
 
     private void menuItemActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemActualizarActionPerformed
         // TODO add your handling code here:
+        ActualizarDatos ad = new ActualizarDatos(clientesDAO, cuentasDAO, cliente);
         dispose();
-        new ActualizarDatos(clientesDAO, cuentasDAO,cliente).setVisible(true);
-//        IniciarSesion iniciarSesion = new IniciarSesion(clientesDAO, cuentasDAO);
-//        int id = iniciarSesion.obtenerId();
-//        int id = iniciarSesion.obtenerId();
-//        System.out.println(id);
+        ad.setVisible(true);
+
     }//GEN-LAST:event_menuItemActualizarActionPerformed
 
     private void btnTransferirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransferirActionPerformed
         // TODO add your handling code here:
-        transferir();
+        TransferenciaForm tf = new TransferenciaForm(clientesDAO, cuentasDAO, cliente);
+        dispose();
+       tf.setVisible(true);
     }//GEN-LAST:event_btnTransferirActionPerformed
 
     private void btnRetirarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetirarActionPerformed
         // TODO add your handling code here:
+        dispose();
+        new RetiroCliente(clientesDAO, cuentasDAO, cliente).setVisible(true);
     }//GEN-LAST:event_btnRetirarActionPerformed
 
     private void menuItemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemSalirActionPerformed
@@ -283,6 +267,8 @@ public class Sesión extends javax.swing.JFrame {
 
     private void menuItemCancelarCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemCancelarCuentaActionPerformed
         // TODO add your handling code here:
+//        Cuenta cuenta = new Cuenta();
+//        cuenta.setEstado("desactivada");
     }//GEN-LAST:event_menuItemCancelarCuentaActionPerformed
 
     private void btnTransaccionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransaccionesActionPerformed
@@ -293,12 +279,10 @@ public class Sesión extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTransaccionesActionPerformed
 
     private void menuItemAbrirCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemAbrirCuentaActionPerformed
-        try {
+
             // TODO add your handling code here:
             abrirCuenta();
-        } catch (PersistenciaException ex) {
-           JOptionPane.showMessageDialog(null, "Error al crear la cuenta");
-        }
+  
     }//GEN-LAST:event_menuItemAbrirCuentaActionPerformed
 
 
@@ -318,7 +302,7 @@ public class Sesión extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuItemActualizar;
     private javax.swing.JMenuItem menuItemCancelarCuenta;
     private javax.swing.JMenuItem menuItemSalir;
-    private javax.swing.JTextField txtCliente;
+    public static javax.swing.JTextField txtCliente;
     private javax.swing.JTextField txtSaldo;
     // End of variables declaration//GEN-END:variables
 }

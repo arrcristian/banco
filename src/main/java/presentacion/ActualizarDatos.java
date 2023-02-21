@@ -51,11 +51,9 @@ public class ActualizarDatos extends javax.swing.JFrame {
         String numeroCasa = this.txtNumero.getText();
         String fecha_nacimiento = ((JTextField)this.txtFechaNacimiento.getDateEditor().getUiComponent()).getText();
         int edad = calcularEdad(fecha_nacimiento);
-                IniciarSesion iniciarSesion = new IniciarSesion(clientesDAO, cuentasDAO,cliente);
-        //String id = iniciarSesion.obtenerId();
-       // System.out.println(id);
+      int id = Integer.parseInt(IniciarSesion.txtId.getText());
 
-        Cliente cliente = new Cliente(nombre, apellido_paterno, apellido_materno, fecha_nacimiento, colonia, calle, numeroCasa, nuevaContraseña, edad);
+        Cliente cliente = new Cliente(id,nombre, apellido_paterno, apellido_materno, fecha_nacimiento, colonia, calle, numeroCasa, nuevaContraseña, edad);
                 
         
         return cliente;
@@ -368,6 +366,7 @@ public class ActualizarDatos extends javax.swing.JFrame {
             dispose();
             reiniciarCampos();
             new Sesión(clientesDAO,cuentasDAO,cliente).setVisible(true);
+            Sesión.txtCliente.setText(IniciarSesion.txtId.getText());
         } else {
             JOptionPane.showMessageDialog(null, "Datos incorrectos");
         }
@@ -378,6 +377,7 @@ public class ActualizarDatos extends javax.swing.JFrame {
         // TODO add your handling code here:
         dispose();
         new Sesión(clientesDAO,cuentasDAO,cliente).setVisible(true);
+        Sesión.txtCliente.setText(IniciarSesion.txtId.getText());
     }//GEN-LAST:event_btnRegresarActionPerformed
 
    
