@@ -39,9 +39,6 @@ public class Sesión extends javax.swing.JFrame {
         this.clientesDAO = clientesDAO;
         this.cuentasDAO = cuentasDAO;
         initComponents();
-        //txtCliente.setText(clientesDAO.g);
-        txtSaldo.setText("$2000");
-        txtSaldo.setEditable(false);
         this.setLocationRelativeTo(null);
         setResizable(false);
         txtCliente.setEditable(false);
@@ -84,13 +81,9 @@ public class Sesión extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblSaldo = new javax.swing.JLabel();
-        txtSaldo = new javax.swing.JTextField();
-        lblCuenta = new javax.swing.JLabel();
         btnTransferir = new javax.swing.JButton();
         btnRetirar = new javax.swing.JButton();
         btnTransacciones = new javax.swing.JButton();
-        cbCuenta = new javax.swing.JComboBox<>();
         lblNombre = new javax.swing.JLabel();
         txtCliente = new javax.swing.JTextField();
         menu = new javax.swing.JMenuBar();
@@ -99,13 +92,8 @@ public class Sesión extends javax.swing.JFrame {
         menuItemAbrirCuenta = new javax.swing.JMenuItem();
         menuItemCancelarCuenta = new javax.swing.JMenuItem();
         menuItemSalir = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        lblSaldo.setText("Saldo");
-
-        lblCuenta.setText("Cuenta");
 
         btnTransferir.setText("Transferir");
         btnTransferir.addActionListener(new java.awt.event.ActionListener() {
@@ -125,13 +113,6 @@ public class Sesión extends javax.swing.JFrame {
         btnTransacciones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnTransaccionesActionPerformed(evt);
-            }
-        });
-
-        cbCuenta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cbCuenta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbCuentaActionPerformed(evt);
             }
         });
 
@@ -173,60 +154,40 @@ public class Sesión extends javax.swing.JFrame {
 
         menu.add(menuConfigurar);
 
-        jMenu2.setText("Edit");
-        menu.add(jMenu2);
-
         setJMenuBar(menu);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(114, 114, 114)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblSaldo)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnTransacciones)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblNombre)
-                            .addComponent(lblCuenta))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cbCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(132, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnTransferir)
                     .addComponent(btnRetirar, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(149, 149, 149))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(125, 125, 125)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblNombre)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnTransacciones))
+                .addContainerGap(132, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(3, 3, 3)
+                .addGap(53, 53, 53)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNombre)
                     .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblCuenta)
-                    .addComponent(cbCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblSaldo)
-                    .addComponent(txtSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(33, 33, 33)
+                .addGap(66, 66, 66)
                 .addComponent(btnTransferir)
                 .addGap(18, 18, 18)
                 .addComponent(btnRetirar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addComponent(btnTransacciones)
                 .addContainerGap())
         );
@@ -261,10 +222,6 @@ public class Sesión extends javax.swing.JFrame {
         new Inicio(clientesDAO,cuentasDAO,cliente).setVisible(true);
     }//GEN-LAST:event_menuItemSalirActionPerformed
 
-    private void cbCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbCuentaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbCuentaActionPerformed
-
     private void menuItemCancelarCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemCancelarCuentaActionPerformed
         // TODO add your handling code here:
 //        Cuenta cuenta = new Cuenta();
@@ -291,11 +248,7 @@ public class Sesión extends javax.swing.JFrame {
     private javax.swing.JButton btnRetirar;
     private javax.swing.JButton btnTransacciones;
     private javax.swing.JButton btnTransferir;
-    private javax.swing.JComboBox<String> cbCuenta;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JLabel lblCuenta;
     private javax.swing.JLabel lblNombre;
-    private javax.swing.JLabel lblSaldo;
     private javax.swing.JMenuBar menu;
     private javax.swing.JMenu menuConfigurar;
     private javax.swing.JMenuItem menuItemAbrirCuenta;
@@ -303,6 +256,5 @@ public class Sesión extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuItemCancelarCuenta;
     private javax.swing.JMenuItem menuItemSalir;
     public static javax.swing.JTextField txtCliente;
-    private javax.swing.JTextField txtSaldo;
     // End of variables declaration//GEN-END:variables
 }

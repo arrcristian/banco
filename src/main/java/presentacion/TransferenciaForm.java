@@ -11,6 +11,7 @@ import interfaces.ICuentasDAO;
 import java.time.LocalDateTime;
 import javax.swing.JOptionPane;
 import dominio.Transferencia;
+import static presentacion.Sesión.txtCliente;
 
 /**
  *
@@ -33,12 +34,15 @@ public class TransferenciaForm extends javax.swing.JFrame {
         setResizable(false);
     }
     
-      public Transferencia extraerDatosTransferencia() throws PersistenciaException {
+      public Transferencia extraerDatosTransferencia() {
         float monto = Float.parseFloat(txtMonto.getText());
         String fechaActual = LocalDateTime.now().toString();
-        int cuentaDestino = Integer.parseInt(txtCuentaDestino.getText());
-        Transferencia transferencia = new Transferencia(fechaActual, monto, 134, cuentaDestino);
+        String cuentaDestino = txtCuentaDestino.getText();
+        String cuentaOrigen = txtCuentaOrigen.getText();
+        Transferencia transferencia = new Transferencia(fechaActual,monto, cuentaOrigen, cuentaDestino);
+        this.cuentasDAO.transferir(transferencia);
         return transferencia;
+        
        
     }
        public void transferir(){
@@ -66,9 +70,9 @@ public class TransferenciaForm extends javax.swing.JFrame {
         txtMonto = new javax.swing.JTextField();
         btnAceptar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        cbCuenta = new javax.swing.JComboBox<>();
         txtCuentaDestino = new javax.swing.JTextField();
         btnRegresar = new javax.swing.JButton();
+        txtCuentaOrigen = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -114,7 +118,7 @@ public class TransferenciaForm extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtCuentaDestino)
                             .addComponent(txtMonto)
-                            .addComponent(cbCuenta, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(txtCuentaOrigen)))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(btnRegresar)
@@ -131,11 +135,11 @@ public class TransferenciaForm extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTransferencia)
                     .addComponent(btnRegresar))
-                .addGap(38, 38, 38)
+                .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(cbCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38)
+                    .addComponent(txtCuentaOrigen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -154,6 +158,9 @@ public class TransferenciaForm extends javax.swing.JFrame {
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
         transferir();
+        txtCuentaDestino.setText("");
+        txtCuentaOrigen.setText("");
+        txtMonto.setText("");
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
@@ -168,12 +175,12 @@ public class TransferenciaForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnRegresar;
-    private javax.swing.JComboBox<String> cbCuenta;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel lblTransferencia;
     private javax.swing.JTextField txtCuentaDestino;
+    private javax.swing.JTextField txtCuentaOrigen;
     private javax.swing.JTextField txtMonto;
     // End of variables declaration//GEN-END:variables
 }

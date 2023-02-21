@@ -13,49 +13,31 @@ public class Transferencia {
     private int id;
     private String fecha;
     private float monto;
-    private int idCuentaOrigen;
-    private int idCuentaDestino;
+    private String cuentaOrigen;
+    private String cuentaDestino;
 
     public Transferencia() {
     }
 
-    public Transferencia(String fecha, float monto, int idCuentaOrigen, int idCuentaDestino) {
+    public Transferencia(String fecha, float monto, String cuentaOrigen, String cuentaDestino) {
         this.fecha = fecha;
         this.monto = monto;
-        this.idCuentaOrigen = idCuentaOrigen;
-        this.idCuentaDestino = idCuentaDestino;
+        this.cuentaOrigen = cuentaOrigen;
+        this.cuentaDestino = cuentaDestino;
     }
 
-    public Transferencia(int id, String fecha, float monto, int idCuentaOrigen, int idCuentaDestino) {
+    public Transferencia(float monto, String cuentaOrigen, String cuentaDestino) {
+        this.monto = monto;
+        this.cuentaOrigen = cuentaOrigen;
+        this.cuentaDestino = cuentaDestino;
+    }
+
+    public Transferencia(int id, String fecha, float monto, String cuentaOrigen, String cuentaDestino) {
         this.id = id;
         this.fecha = fecha;
         this.monto = monto;
-        this.idCuentaOrigen = idCuentaOrigen;
-        this.idCuentaDestino = idCuentaDestino;
-    }
-
-    public Transferencia(float monto, int idCuentaOrigen, int idCuentaDestino) {
-        this.monto = monto;
-        this.idCuentaOrigen = idCuentaOrigen;
-        this.idCuentaDestino = idCuentaDestino;
-    }
-    
-    
-
-    public int getIdCuentaOrigen() {
-        return idCuentaOrigen;
-    }
-
-    public void setIdCuentaOrigen(int idCuentaOrigen) {
-        this.idCuentaOrigen = idCuentaOrigen;
-    }
-
-    public int getIdCuentaDestino() {
-        return idCuentaDestino;
-    }
-
-    public void setIdCuentaDestino(int idCuentaDestino) {
-        this.idCuentaDestino = idCuentaDestino;
+        this.cuentaOrigen = cuentaOrigen;
+        this.cuentaDestino = cuentaDestino;
     }
 
     public int getId() {
@@ -81,6 +63,24 @@ public class Transferencia {
     public void setMonto(float monto) {
         this.monto = monto;
     }
+
+    public String getCuentaOrigen() {
+        return cuentaOrigen;
+    }
+
+    public void setCuentaOrigen(String cuentaOrigen) {
+        this.cuentaOrigen = cuentaOrigen;
+    }
+
+    public String getCuentaDestino() {
+        return cuentaDestino;
+    }
+
+    public void setCuentaDestino(String cuentaDestino) {
+        this.cuentaDestino = cuentaDestino;
+    }
+
+    
 
 
     

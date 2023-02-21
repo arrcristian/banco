@@ -18,6 +18,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -90,21 +91,33 @@ public class CuentasDAO implements ICuentasDAO {
     @Override
     public Transferencia transferir(Transferencia transferencia) {
         Connection conexion;
+        Cuenta cuenta = new Cuenta();
         try {
             conexion = MANEJADOR_CONEXIONES.crearConexion();
-            CallableStatement cs = conexion.prepareCall("{call transferir(?,?,?,?,?)}");
-            cs.setInt(1, transferencia.getId());
-            cs.setFloat(2, transferencia.getMonto());
-            cs.setFloat(3, transferencia.getIdCuentaOrigen());
-            cs.setFloat(4, transferencia.getIdCuentaDestino());
-            cs.setString(5, transferencia.getFecha());
+            CallableStatement cs = conexion.prepareCall("{CALL transferir(?,?,?)}");
+            PreparedStatement comando = conexion.prepareStatement("INSERT into transferencias (fechaRealizacion,monto,cuentaOrigen, cuentaDestino) VALUES (?,?,?,?)");
+            cs.setFloat(1, transferencia.getMonto());
+            cs.setString(2, transferencia.getCuentaOrigen());
+            cs.setString(3, transferencia.getCuentaDestino());
+            
+            comando.setString(1, transferencia.getFecha());
+            comando.setFloat(2, transferencia.getMonto());
+            comando.setString(3, transferencia.getCuentaOrigen());
+            comando.setString(4, transferencia.getCuentaDestino());
+            
+            if(transferencia.getMonto() >= cuenta.getSaldo()){
+                 cs.executeUpdate();
+            comando.executeUpdate();
+             return transferencia;
+            } else {
+                JOptionPane.showMessageDialog(null, "Saldo insuficiente");
+                return null;
+            } 
 
-            cs.executeUpdate();
-            return transferencia;
         } catch (SQLException ex) {
             Logger.getLogger(CuentasDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-return null;
+        return null;
     }
 
 
