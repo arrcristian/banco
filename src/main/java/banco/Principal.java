@@ -4,6 +4,7 @@
  */
 package banco;
 
+import dominio.Cliente;
 import implementaciones.ClientesDAO;
 import implementaciones.ConexionBD;
 import implementaciones.CuentasDAO;
@@ -32,7 +33,8 @@ public class Principal {
                 "cristian");
         IClientesDAO clientesDAO = new ClientesDAO(generadorConexiones);
         ICuentasDAO cuentasDAO = new CuentasDAO(generadorConexiones);
-        new Inicio(clientesDAO,cuentasDAO).setVisible(true);
+        Cliente cliente = new Cliente();
+        new Inicio(clientesDAO,cuentasDAO,cliente).setVisible(true);
     }
     
 }

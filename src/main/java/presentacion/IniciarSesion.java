@@ -22,13 +22,15 @@ public class IniciarSesion extends javax.swing.JFrame {
 
     private final IClientesDAO clientesDAO;
     private final ICuentasDAO cuentasDAO;
+    private final Cliente cliente;
     /**
      * Creates new form IniciarSesion
      */
    
 
-    public IniciarSesion(IClientesDAO clientesDAO,ICuentasDAO cuentasDAO) {
+    public IniciarSesion(IClientesDAO clientesDAO,ICuentasDAO cuentasDAO,Cliente cliente) {
         this.setTitle("Iniciar Sesión");
+        this.cliente = cliente;
         this.clientesDAO = clientesDAO;
         this.cuentasDAO = cuentasDAO;
         initComponents();
@@ -48,35 +50,26 @@ public class IniciarSesion extends javax.swing.JFrame {
         return cliente;
 
     }
-    
-    public String obtenerId(){
-        String id = txtId.getText();
-        return id;
-    }
 
     public static JTextField getTxtId() {
         return txtId;
     }
-    
 
-    
-  
-    
-    public boolean inicioSesion(){
+    public Cliente inicioSesion(){
         
         try {
             Cliente cliente = this.extraerDatosFormulario();
-            if(clientesDAO.iniciarSesion(cliente) == true){
-                return true;
+            if(clientesDAO.iniciarSesion(cliente) != null){
+                return cliente;
             } else {
-                  return false;
+                  return null;
             }
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error al iniciar de sesión");
  
         }
-               return false;
+               return null;
     }
     
     private boolean verificarContrasena(){
@@ -207,12 +200,14 @@ public class IniciarSesion extends javax.swing.JFrame {
              JOptionPane.showMessageDialog(null, "Error al iniciar de sesión contraseña");
         }
   
-        if(verificarCamposVacios() == true && verificarContrasena() == true && verificarCamposVacios() == true && inicioSesion() == true){
+        if(verificarCamposVacios() == true && verificarContrasena() == true && verificarCamposVacios() == true && inicioSesion() != null){
+            int id = Integer.parseInt(getTxtId().getText());
+            System.out.println(id);
            inicioSesion();
            dispose();
-           reiniciarCampos();
+//           reiniciarCampos();
 //           JOptionPane.showMessageDialog(null, "Has ingresado al sistema");
-           new Sesión(clientesDAO,cuentasDAO).setVisible(true);
+           new Sesión(clientesDAO,cuentasDAO,cliente).setVisible(true);
         } else {
                  JOptionPane.showMessageDialog(null, "Error al iniciar, datos incorrectos");
             }
@@ -223,7 +218,7 @@ public class IniciarSesion extends javax.swing.JFrame {
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
         dispose();
-        new Inicio(clientesDAO,cuentasDAO).setVisible(true);
+        new Inicio(clientesDAO,cuentasDAO,cliente).setVisible(true);
     }//GEN-LAST:event_btnRegresarActionPerformed
 
 

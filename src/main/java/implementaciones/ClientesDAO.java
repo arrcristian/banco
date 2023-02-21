@@ -89,7 +89,7 @@ public class ClientesDAO implements IClientesDAO{
 
 
     @Override
-    public boolean iniciarSesion(Cliente cliente) {
+    public Cliente iniciarSesion(Cliente cliente) {
         ResultSet rs = null;
         String codigoSQL = "select id,contraseña from clientes where id = ?";
         try (Connection conexion = MANEJADOR_CONEXIONES.crearConexion();
@@ -101,16 +101,16 @@ public class ClientesDAO implements IClientesDAO{
             if(rs.next()){
                 if(cliente.getContraseña().equals(rs.getString("contraseña"))){
                     cliente.setId(rs.getInt("id"));
-                    return true;
+                    return cliente;
                 } else {
-                    return false;
+                    return null;
                 }     
             }
     } catch(Exception ex){
         LOG.log(Level.SEVERE, "No se pudo iniciar sesión: " + ex.getMessage());
     
     }
-return false;
+return null;
     
     }
 

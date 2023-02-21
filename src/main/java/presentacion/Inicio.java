@@ -20,10 +20,12 @@ public class Inicio extends javax.swing.JFrame {
 
      private final IClientesDAO clientesDAO;
      private final ICuentasDAO cuentasDAO;
+     private final Cliente cliente;
     /**
      * Creates new form Inicio
      */
-    public Inicio(IClientesDAO clientesDAO,ICuentasDAO cuentasDAO) {
+    public Inicio(IClientesDAO clientesDAO,ICuentasDAO cuentasDAO, Cliente cliente) {
+        this.cliente = cliente;
         this.setTitle("Inicio");
         this.clientesDAO = clientesDAO;
         this.cuentasDAO = cuentasDAO;
@@ -34,7 +36,7 @@ public class Inicio extends javax.swing.JFrame {
 
     public boolean verificarInicio(){
         Cliente cliente = new Cliente();
-       if(clientesDAO.iniciarSesion(cliente)){
+       if(clientesDAO.iniciarSesion(cliente) != null){
            return true;
        }
        return false;
@@ -42,7 +44,7 @@ public class Inicio extends javax.swing.JFrame {
     
     public void iniciarSesion(){
         if(verificarInicio()){
-            new Sesión(clientesDAO,cuentasDAO).setVisible(true);
+            new Sesión(clientesDAO,cuentasDAO,cliente).setVisible(true);
         } else {
              JOptionPane.showMessageDialog(null, "Error");
         }
@@ -138,7 +140,7 @@ public class Inicio extends javax.swing.JFrame {
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
         // TODO add your handling code here:
         dispose();
-        new IniciarSesion(clientesDAO,cuentasDAO).setVisible(true);
+        new IniciarSesion(clientesDAO,cuentasDAO,cliente).setVisible(true);
         
         
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
@@ -146,13 +148,13 @@ public class Inicio extends javax.swing.JFrame {
     private void btnRegistrarmeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarmeActionPerformed
         // TODO add your handling code here:
         dispose();
-        new Registro(clientesDAO,cuentasDAO).setVisible(true);
+        new Registro(clientesDAO,cuentasDAO,cliente).setVisible(true);
     }//GEN-LAST:event_btnRegistrarmeActionPerformed
 
     private void btnRetiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetiroActionPerformed
         // TODO add your handling code here:
         dispose();
-      new Retiro(clientesDAO,cuentasDAO).setVisible(true);
+      new Retiro(clientesDAO,cuentasDAO,cliente).setVisible(true);
     }//GEN-LAST:event_btnRetiroActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed

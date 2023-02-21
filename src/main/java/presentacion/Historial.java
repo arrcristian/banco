@@ -4,6 +4,7 @@
  */
 package presentacion;
 
+import dominio.Cliente;
 import interfaces.IClientesDAO;
 import interfaces.ICuentasDAO;
 
@@ -15,11 +16,13 @@ public class Historial extends javax.swing.JFrame {
 
     private final IClientesDAO clientesDAO;
     private final ICuentasDAO cuentasDAO;
+    private final Cliente cliente;
     /**
      * Creates new form Historial
      */
-    public Historial(IClientesDAO clientesDAO,ICuentasDAO cuentasDAO) {
+    public Historial(IClientesDAO clientesDAO,ICuentasDAO cuentasDAO,Cliente cliente) {
         this.setTitle("Transacciones");
+        this.cliente = cliente;
         this.clientesDAO = clientesDAO;
         this.cuentasDAO = cuentasDAO;
         initComponents();
@@ -107,7 +110,7 @@ public class Historial extends javax.swing.JFrame {
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
         dispose();
-        new Sesión(clientesDAO,cuentasDAO).setVisible(true);
+        new Sesión(clientesDAO,cuentasDAO,cliente).setVisible(true);
     }//GEN-LAST:event_btnRegresarActionPerformed
 
   

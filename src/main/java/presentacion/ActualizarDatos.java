@@ -23,11 +23,13 @@ public class ActualizarDatos extends javax.swing.JFrame {
     private final IClientesDAO clientesDAO;
     private final ICuentasDAO cuentasDAO;
     private final Validadores validadores = new Validadores();
+    private final Cliente cliente;
     /**
      * Creates new form Registro
      */
-    public ActualizarDatos(IClientesDAO clientesDAO,ICuentasDAO cuentasDAO) {
+    public ActualizarDatos(IClientesDAO clientesDAO,ICuentasDAO cuentasDAO, Cliente cliente) {
         this.setTitle("Actualizar Datos");
+        this.cliente = cliente;
         this.clientesDAO = clientesDAO;
         this.cuentasDAO = cuentasDAO;
         initComponents();
@@ -49,7 +51,7 @@ public class ActualizarDatos extends javax.swing.JFrame {
         String numeroCasa = this.txtNumero.getText();
         String fecha_nacimiento = ((JTextField)this.txtFechaNacimiento.getDateEditor().getUiComponent()).getText();
         int edad = calcularEdad(fecha_nacimiento);
-                IniciarSesion iniciarSesion = new IniciarSesion(clientesDAO, cuentasDAO);
+                IniciarSesion iniciarSesion = new IniciarSesion(clientesDAO, cuentasDAO,cliente);
         //String id = iniciarSesion.obtenerId();
        // System.out.println(id);
 
@@ -365,7 +367,7 @@ public class ActualizarDatos extends javax.swing.JFrame {
             actualizar();
             dispose();
             reiniciarCampos();
-            new Sesión(clientesDAO,cuentasDAO).setVisible(true);
+            new Sesión(clientesDAO,cuentasDAO,cliente).setVisible(true);
         } else {
             JOptionPane.showMessageDialog(null, "Datos incorrectos");
         }
@@ -375,7 +377,7 @@ public class ActualizarDatos extends javax.swing.JFrame {
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
         dispose();
-        new Sesión(clientesDAO,cuentasDAO).setVisible(true);
+        new Sesión(clientesDAO,cuentasDAO,cliente).setVisible(true);
     }//GEN-LAST:event_btnRegresarActionPerformed
 
    

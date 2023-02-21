@@ -4,6 +4,7 @@
  */
 package presentacion;
 
+import dominio.Cliente;
 import interfaces.IClientesDAO;
 import interfaces.ICuentasDAO;
 import java.util.TimerTask;
@@ -17,11 +18,13 @@ public class Retiro extends javax.swing.JFrame {
 
     private final IClientesDAO clientesDAO;
     private final ICuentasDAO cuentasDAO;
+    private final Cliente cliente;
     /**
      * Creates new form Retiro
      */
-    public Retiro(IClientesDAO clientesDAO,ICuentasDAO cuentasDAO) {
+    public Retiro(IClientesDAO clientesDAO,ICuentasDAO cuentasDAO,Cliente cliente) {
         this.setTitle("Retiro");
+        this.cliente = cliente;
         this.clientesDAO = clientesDAO;
         this.cuentasDAO = cuentasDAO;
         initComponents();
@@ -131,7 +134,7 @@ public class Retiro extends javax.swing.JFrame {
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
         dispose();
-        new Inicio(clientesDAO,cuentasDAO).setVisible(true);
+        new Inicio(clientesDAO,cuentasDAO,cliente).setVisible(true);
     }//GEN-LAST:event_btnRegresarActionPerformed
 
 

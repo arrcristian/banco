@@ -5,6 +5,7 @@
 package interfaces;
 
 import dominio.Cuenta;
+import dominio.Transferencia;
 import excepciones.PersistenciaException;
 
 /**
@@ -15,4 +16,5 @@ public interface ICuentasDAO {
     
     public Cuenta registrar (Cuenta cuenta) throws PersistenciaException;
     public int verificarCliente(int cliente);
+    public Transferencia transferir();
 }

@@ -34,6 +34,14 @@ public class Transferencia {
         this.idCuentaDestino = idCuentaDestino;
     }
 
+    public Transferencia(float monto, int idCuentaOrigen, int idCuentaDestino) {
+        this.monto = monto;
+        this.idCuentaOrigen = idCuentaOrigen;
+        this.idCuentaDestino = idCuentaDestino;
+    }
+    
+    
+
     public int getIdCuentaOrigen() {
         return idCuentaOrigen;
     }

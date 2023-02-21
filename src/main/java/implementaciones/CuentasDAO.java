@@ -4,11 +4,13 @@
  */
 package implementaciones;
 
+import dominio.Transferencia;
 import dominio.Cliente;
 import dominio.Cuenta;
 import excepciones.PersistenciaException;
 import interfaces.IConexionBD;
 import interfaces.ICuentasDAO;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -62,7 +64,7 @@ public class CuentasDAO implements ICuentasDAO {
     @Override
     public int verificarCliente(int cliente) {
         ResultSet rs = null;
-        String codigoSQL = "insert into cuentasfrom clientes where id =?";
+        String codigoSQL = "insert into cuentas from clientes where id =?";
         try (Connection conexion = MANEJADOR_CONEXIONES.crearConexion();
                 PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
 
@@ -81,6 +83,24 @@ public class CuentasDAO implements ICuentasDAO {
     }
     
    
+    }
+
+    @Override
+    public Transferencia transferir() {
+        Transferencia transferencia = new Transferencia();
+        Connection conexion;
+        try {
+            conexion = MANEJADOR_CONEXIONES.crearConexion();
+            CallableStatement cs = conexion.prepareCall("{call transferir(?,?,?)}");
+            cs.setFloat(1, transferencia.getMonto());
+            cs.setFloat(2, transferencia.getIdCuentaOrigen());
+            cs.setFloat(3, transferencia.getIdCuentaDestino());
+            cs.execute();
+            return transferencia;
+        } catch (SQLException ex) {
+            Logger.getLogger(CuentasDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+return null;
     }
     
     

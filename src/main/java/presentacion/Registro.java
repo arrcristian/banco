@@ -23,11 +23,17 @@ public class Registro extends javax.swing.JFrame {
     private final IClientesDAO clientesDAO;
     private final ICuentasDAO cuentasDAO;
     private final Validadores validadores = new Validadores();
+    private final Cliente cliente;
+    
+    
+    
+    
     /**
      * Creates new form Registro
      */
-    public Registro(IClientesDAO clientesDAO,ICuentasDAO cuentasDAO) {
+    public Registro(IClientesDAO clientesDAO,ICuentasDAO cuentasDAO,Cliente cliente) {
         this.setTitle("Registro");
+        this.cliente = cliente;
         this.clientesDAO = clientesDAO;
         this.cuentasDAO = cuentasDAO;
         initComponents();
@@ -359,7 +365,7 @@ public class Registro extends javax.swing.JFrame {
             guardar();
             dispose();
             reiniciarCampos();
-            new Inicio(clientesDAO,cuentasDAO).setVisible(true);
+            new Inicio(clientesDAO,cuentasDAO,cliente).setVisible(true);
         } else {
             JOptionPane.showMessageDialog(null, "Datos incorrectos");
         }
@@ -369,7 +375,7 @@ public class Registro extends javax.swing.JFrame {
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
         dispose();
-        new Inicio(clientesDAO,cuentasDAO).setVisible(true);
+        new Inicio(clientesDAO,cuentasDAO,cliente).setVisible(true);
     }//GEN-LAST:event_btnRegresarActionPerformed
 
    
